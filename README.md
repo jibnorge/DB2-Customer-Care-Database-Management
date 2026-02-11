@@ -1,6 +1,85 @@
-# DB2-Customer-Care-Database-Management
-The project focuses on designing and implementing a customer care database using IBM DB2. It included schema design, relational table creation, indexing for faster queries, and establishing entity relationships.
+# DB2 Customer Care Database Management
 
+A comprehensive relational database system built using **IBM DB2** to manage customer care operations in a call center/support environment. The project demonstrates full lifecycle database management: schema design, table creation with constraints & indexes, data loading, CRUD operations, backup/recovery, and advanced analytical SQL queries.
+
+**Key Features**
+- Normalized relational schema with proper primary & foreign keys
+- Support for customer profiles, agent performance tracking, call logging, issue categorization, and resolution history
+- Indexing for query optimization
+- Real-world analytics: agent performance, issue trends, resolution times, repeat callers, etc.
+
+## Project Overview
+
+This project implements a **Customer Care Database** using IBM DB2 on a local instance. It tracks:
+- Customers and their spending/behavior
+- Support agents and their details
+- Inbound calls and associated issues
+- Common issues and their resolutions
+
+## Database Schema
+
+### 1. Customers Table
+Stores customer profile and account information.
+
+| Column          | Data Type       | Constraints                  | Description                              |
+|-----------------|-----------------|------------------------------|------------------------------------------|
+| CustomerID      | VARCHAR(50)     | PRIMARY KEY                  | Unique ID (C001–C200)                    |
+| Name            | VARCHAR(50)     |                              | Full name                                |
+| Email           | VARCHAR(100)    |                              | Email address                            |
+| Phone           | VARCHAR(50)     |                              | Phone number                             |
+| Gender          | VARCHAR(50)     |                              | Male / Female                            |
+| TotalSpent      | DECIMAL(10,2)   |                              | Total amount spent                       |
+| AccountStatus   | VARCHAR(50)     |                              | Active / Inactive                        |
+| CustomerType    | VARCHAR(50)     |                              | Regular / Gold / Silver                  |
+
+### 2. Agents Table
+Agent profiles and performance metadata.
+
+| Column       | Data Type     | Constraints     | Description                          |
+|--------------|---------------|-----------------|--------------------------------------|
+| AgentID      | VARCHAR(50)   | PRIMARY KEY     | Unique ID (A01–A50)                  |
+| FirstName    | VARCHAR(50)   |                 | First name                           |
+| LastName     | VARCHAR(50)   |                 | Last name                            |
+| Email        | VARCHAR(100)  |                 | Email                                |
+| Phone        | VARCHAR(50)   |                 | Phone                                |
+| DepartmentID | VARCHAR(50)   | NOT NULL        | D101–D104                            |
+| Role         | VARCHAR(50)   |                 | Customer Support / Technical Support |
+| Salary       | INT           |                 | Salary                               |
+| State        | VARCHAR(50)   |                 | State                                |
+| Country      | VARCHAR(50)   |                 | Country (e.g. USA)                   |
+
+### 3. Issues Table
+Common issue categories.
+
+| Column           | Data Type     | Constraints | Description                  |
+|------------------|---------------|-------------|------------------------------|
+| IssueID          | VARCHAR(50)   | PRIMARY KEY | Unique ID (CI01–CI30)        |
+| IssueDescription | VARCHAR(100)  |             | e.g. "Billing error", "Login issue" |
+
+### 4. Calls Table
+Records every customer-agent interaction.
+
+| Column         | Data Type     | Constraints                                      | Description                          |
+|----------------|---------------|--------------------------------------------------|--------------------------------------|
+| CallID         | VARCHAR(50)   | PRIMARY KEY                                      | Unique ID (CL001–CL200+)             |
+| CustomerID     | VARCHAR(50)   | FOREIGN KEY → Customers(CustomerID), NOT NULL    | Customer reference                   |
+| AgentID        | VARCHAR(50)   | FOREIGN KEY → Agents(AgentID), NOT NULL          | Agent reference                      |
+| CallDuration   | INT           |                                                  | Duration in minutes                  |
+| CallIssueID    | VARCHAR(50)   | FOREIGN KEY → Issues(IssueID), NOT NULL          | Issue type                           |
+| DaysToResolve  | INT           |                                                  | Days taken (-1 = Not resolved)       |
+| IssueStatus    | VARCHAR(50)   |                                                  | Resolved / Unresolved                |
+
+### 5. Resolution Table
+Resolution details linked to issues & customers.
+
+| Column                | Data Type     | Constraints                                      | Description                          |
+|-----------------------|---------------|--------------------------------------------------|--------------------------------------|
+| ResolutionID          | VARCHAR(50)   | PRIMARY KEY                                      | Unique ID (R01–R200)                 |
+| ResolutionDescription | VARCHAR(50)   |                                                  | Brief resolution text                |
+| CustomerID            | VARCHAR(50)   | FOREIGN KEY → Customers(CustomerID), NOT NULL    | Customer reference                   |
+| IssueID               | VARCHAR(50)   | FOREIGN KEY → Issues(IssueID), NOT NULL          | Issue reference                      |
+
+## Setup Instructions
 
 **Step 1: Create a DB2 database on your computer**
 
