@@ -1,5 +1,7 @@
 # DB2 Customer Care Database Management
 
+![Cover Image](images/image.jpg)
+
 A comprehensive relational database system built using **IBM DB2** to manage customer care operations in a call center/support environment. The project demonstrates full lifecycle database management: schema design, table creation with constraints & indexes, data loading, CRUD operations, backup/recovery, and advanced analytical SQL queries.
 
 **Key Features**
