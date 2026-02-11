@@ -81,6 +81,57 @@ Resolution details linked to issues & customers.
 | CustomerID            | VARCHAR(50)   | FOREIGN KEY → Customers(CustomerID), NOT NULL    | Customer reference                   |
 | IssueID               | VARCHAR(50)   | FOREIGN KEY → Issues(IssueID), NOT NULL          | Issue reference                      |
 
+## ER Diagram
+```mermaid
+erDiagram
+    CUSTOMERS ||--o{ CALLS : ""
+    CUSTOMERS ||--o{ RESOLUTION : ""
+    AGENTS ||--o{ CALLS : ""
+    ISSUES ||--|{ CALLS : ""
+    ISSUES ||--o{ RESOLUTION : ""
+
+    CUSTOMERS {
+        varchar CustomerID PK
+        varchar Name
+        varchar Email
+        varchar Phone
+        decimal TotalSpent
+        varchar AccountStatus
+        varchar CustomerType
+    }
+
+    AGENTS {
+        varchar AgentID PK
+        varchar FirstName
+        varchar LastName
+        varchar DepartmentID
+        varchar Role
+        int Salary
+    }
+
+    ISSUES {
+        varchar IssueID PK
+        varchar IssueDescription
+    }
+
+    CALLS {
+        varchar CallID PK
+        varchar CustomerID FK
+        varchar AgentID FK
+        varchar CallIssueID FK
+        int CallDuration
+        int DaysToResolve
+        varchar IssueStatus
+    }
+
+    RESOLUTION {
+        varchar ResolutionID PK
+        varchar ResolutionDescription
+        varchar CustomerID FK
+        varchar IssueID FK
+    }
+```
+
 ## Setup Instructions
 
 **Step 1: Create a DB2 database on your computer**
